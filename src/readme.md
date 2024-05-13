@@ -1,27 +1,57 @@
-# TaskManager API
+Task Manager API
 
-## Description
-The TaskManager API is a Spring Boot-based application designed to manage tasks efficiently. It allows users to create, update, delete, and view tasks with ease. The API is built with RESTful principles in mind, ensuring that it can be easily integrated with various front-end technologies or used as a standalone service.
+The Task Manager API is a simple yet powerful RESTful service designed with Spring Boot. It allows users to manage tasks effectively with functionalities like adding, updating, deleting, and fetching tasks.
 
-## Features
-- **Create Tasks**: Add new tasks with descriptions, priorities, and statuses.
-- **Read Tasks**: Retrieve all tasks or a single task by ID.
-- **Update Tasks**: Modify existing tasks based on ID.
-- **Delete Tasks**: Remove tasks from the system.
+Features
 
-## Technologies Used
-- Spring Boot 3.2.5
-- Spring Data JPA
-- H2 Database
-- Gradle
+Create Tasks: Add new tasks with details such as title, description, and priority.
+Read Tasks: Retrieve the list of tasks or a specific task by its ID.
+Update Tasks: Modify the details of an existing task.
+Delete Tasks: Remove tasks from the system.
+Getting Started
+These instructions will get you a copy of the project up and running on your local machine for development and testing purposes.
 
-## Prerequisites
-Before you begin, ensure you have met the following requirements:
-- Java JDK 11 or later
-- Gradle 8.7 or later
+Prerequisites
 
-## Installation
-Clone the repository to your local machine:
-```bash
+What things you need to install the software and how to install them:
+
+JDK 11 or newer
+Maven 3.6 or Gradle 7.0 (Choose depending on your setup)
+H2 Database (Embedded for development)
+Git (For version control)
+
+Installing
+
+A step-by-step series of examples that tell you how to get a development environment running:
+
+Clone the repository:
+
 git clone https://github.com/swedevswe/taskmanager.git
 cd taskmanager
+
+Run the application with Maven:
+
+mvn spring-boot:run
+
+Or with Gradle:
+
+./gradlew bootRun
+
+Access the application:
+
+Visit http://localhost:8080 in your web browser.
+
+API Reference
+Below is a brief overview of the API endpoints provided by the Task Manager API:
+
+GET /tasks - Retrieve all tasks
+GET /tasks/{id} - Retrieve a task by its ID
+POST /tasks - Create a new task
+PUT /tasks/{id} - Update an existing task
+DELETE /tasks/{id} - Delete a task
+
+Built With
+Spring Boot - The framework used
+Maven - Dependency Management
+H2 Database - Embedded database
+
