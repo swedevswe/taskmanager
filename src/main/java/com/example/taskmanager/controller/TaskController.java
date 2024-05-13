@@ -10,10 +10,16 @@ import java.net.URI;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/tasks")  // Base path for all endpoints in this controller
+@RequestMapping("/api/tasks")
 public class TaskController {
+
+    private final TaskService taskService;
+
     @Autowired
-    private TaskService taskService;
+    public TaskController(TaskService taskService) {
+        this.taskService = taskService;
+    }
+
     @GetMapping
     public List<Task> getAllTasks() {
         return taskService.getAllTasks();
@@ -22,24 +28,36 @@ public class TaskController {
     @GetMapping("/{id}")
     public ResponseEntity<Task> getTaskById(@PathVariable Long id) {
         Task task = taskService.getTaskById(id);
-        return ResponseEntity.ok(task);
+        if (task != null) {
+            return ResponseEntity.ok(task);
+        } else {
+            return ResponseEntity.notFound().build();
+        }
     }
-        @PostMapping
+
+    @PostMapping
     public ResponseEntity<Task> createTask(@RequestBody Task task) {
         Task savedTask = taskService.saveTask(task);
         return ResponseEntity.created(URI.create("/api/tasks/" + savedTask.getId())).body(savedTask);
     }
+
     @PutMapping("/{id}")
     public ResponseEntity<Task> updateTask(@PathVariable Long id, @RequestBody Task taskDetails) {
         Task updatedTask = taskService.updateTask(id, taskDetails);
-        return ResponseEntity.ok(updatedTask);
+        if (updatedTask != null) {
+            return ResponseEntity.ok(updatedTask);
+        } else {
+            return ResponseEntity.notFound().build();
+        }
     }
+
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteTask(@PathVariable Long id) {
-        taskService.deleteTask(id);
-        return ResponseEntity.noContent().build();
+        boolean isDeleted = taskService.deleteTask(id);
+        if (isDeleted) {
+            return ResponseEntity.noContent().build();
+        } else {
+            return ResponseEntity.notFound().build();
+        }
     }
 }
-
-
-

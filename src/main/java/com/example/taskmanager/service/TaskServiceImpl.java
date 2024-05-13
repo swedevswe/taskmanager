@@ -5,14 +5,18 @@ import com.example.taskmanager.repository.TaskRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class TaskServiceImpl implements TaskService {
 
+    private final TaskRepository taskRepository;
+
     @Autowired
-    private TaskRepository taskRepository;
+    public TaskServiceImpl(TaskRepository taskRepository) {
+        this.taskRepository = taskRepository;
+    }
 
     @Override
     public Task saveTask(Task task) {
@@ -26,11 +30,9 @@ public class TaskServiceImpl implements TaskService {
 
     @Override
     public Task getTaskById(Long id) {
-        Optional<Task> task = taskRepository.findById(id);
-        if (!task.isPresent()) {
-            throw new RuntimeException("Task not found for id :: " + id);
-        }
-        return task.get();
+        return taskRepository.findById(id).orElseThrow(() ->
+            new RuntimeException("Task not found for id :: " + id)
+        );
     }
 
     @Override
@@ -44,8 +46,11 @@ public class TaskServiceImpl implements TaskService {
     }
 
     @Override
-    public void deleteTask(Long id) {
-        Task task = getTaskById(id);
-        taskRepository.delete(task);
+    public boolean deleteTask(Long id) {
+        if (taskRepository.existsById(id)) {
+            taskRepository.deleteById(id);
+            return true;
+        }
+        return false;
     }
 }
